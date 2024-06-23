@@ -26,12 +26,6 @@ export class Client implements IClient {
             })
 
             this.socket = conn
-            this.socket?.on('error', (err) => {
-                console.log("error: ", err)
-            })
-            this.socket?.on("close", () => {
-                console.log("connection closed")
-            })
         } catch (error) {
             return
         }
@@ -65,21 +59,3 @@ export class Client implements IClient {
         })
     }
 }
-
-const client = new Client("localhost", 7000)
-
-client.connect();
-
-
-(async()=>{
-    const Test = await client.createTable("test")
-    let res = await Test?.set("surya", "a")
-    console.log("hi: " + res)
-    res = await Test?.setEX("SURYA", "A", 10)
-    console.log("hi: " + res)
-    let data = await Test?.get("surya")
-    console.log(data)
-    await Test?.delete("surya")
-    let new_data = await Test?.getAll()
-    console.log(new_data)
-})()
